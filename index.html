@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>인공지능 기초 - 수업 랜딩페이지</title>
+    <title>인공지능 기초 - 2-2. 인공지능의 편향과 딜레마</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -13,124 +13,247 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap');
-        
-        body {
-            font-family: 'Noto Sans KR', sans-serif;
-            scroll-behavior: smooth;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .glass {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .light .glass {
-            background: rgba(0, 0, 0, 0.02);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .card-hover:hover {
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
-        }
+        body { font-family: 'Noto Sans KR', sans-serif; scroll-behavior: smooth; }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .light .glass { background: rgba(255, 255, 255, 0.8); border: 1px solid rgba(0, 0, 0, 0.1); }
+        .modal-bg { background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); }
+        .page-transition { transition: all 0.5s ease-in-out; }
+        .hidden-page { display: none; opacity: 0; transform: translateY(20px); }
     </style>
 </head>
-<body class="bg-white text-slate-900 dark:bg-[#0f172a] dark:text-f1f5f9">
+<body class="bg-white text-slate-900 dark:bg-[#0f172a] dark:text-slate-100 transition-colors duration-300">
 
-    <nav class="fixed w-full z-50 glass py-4 px-6 md:px-12 flex justify-between items-center transition-all">
-        <div class="text-2xl font-black tracking-tighter text-blue-600 dark:text-blue-400">
-            AI <span class="text-slate-900 dark:text-white">BASICS</span>
+    <!-- 팝업 모달 -->
+    <div id="main-popup" class="fixed inset-0 z-[100] flex items-center justify-center p-4 modal-bg">
+        <div class="relative max-w-5xl w-full bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-2xl transform transition-all scale-100">
+            <button onclick="closePopup()" class="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center bg-black/50 text-white rounded-full hover:bg-black transition">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="flex flex-col md:flex-row">
+                <div class="md:w-full">
+                    <img src="unnamed.jpg" alt="인공지능 윤리 가이드" class="w-full h-auto object-cover">
+                </div>
+            </div>
+            <div class="p-6 bg-blue-600 text-white flex justify-between items-center">
+                <div>
+                    <h3 class="text-xl font-bold">오늘의 학습 핵심 요약</h3>
+                    <p class="text-sm opacity-80">인공지능의 편향성 원인과 윤리적 딜레마 해결을 위한 5가지 질문</p>
+                </div>
+                <button onclick="closePopup()" class="px-6 py-2 bg-white text-blue-600 font-bold rounded-lg hover:bg-blue-50 transition">
+                    수업 입장하기
+                </button>
+            </div>
         </div>
-        
-        <div class="flex items-center space-x-6">
-            <div class="hidden md:flex space-x-8 font-medium">
-                <a href="#ethics" class="hover:text-blue-500 transition">인공지능 윤리</a>
-                <a href="#learning" class="hover:text-blue-500 transition">학습 프로그램</a>
+    </div>
+
+    <!-- 메인 콘텐츠 페이지 -->
+    <div id="main-page">
+        <!-- Navigation -->
+        <nav class="fixed w-full z-50 glass py-4 px-6 md:px-12 flex justify-between items-center">
+            <div class="text-2xl font-black tracking-tighter text-blue-600 dark:text-blue-400 cursor-pointer" onclick="showPage('main-page')">
+                AI <span class="text-slate-900 dark:text-white">ETHICS</span>
             </div>
             
-            <button id="theme-toggle" class="p-2 w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center transition-colors">
-                <i id="theme-toggle-dark-icon" class="hidden fas fa-moon text-blue-400"></i>
-                <i id="theme-toggle-light-icon" class="hidden fas fa-sun text-yellow-500"></i>
-            </button>
-        </div>
-    </nav>
-
-    <section id="intro" class="min-h-screen flex flex-col justify-center items-center px-6 relative overflow-hidden bg-slate-50 dark:bg-[#0f172a]">
-        <div class="absolute inset-0 pointer-events-none">
-            <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500 opacity-10 blur-[100px]"></div>
-            <div class="absolute bottom-1/4 right-1/4 w-64 h-64 bg-purple-500 opacity-10 blur-[100px]"></div>
-        </div>
-        
-        <div class="z-10 text-center max-w-4xl">
-            <span class="px-4 py-1 rounded-full border border-blue-500 text-blue-600 dark:text-blue-400 text-sm font-bold mb-6 inline-block uppercase">2024학년도 정보 교과</span>
-            <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight">인공지능과 함께하는<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500">미래 사회 탐구</span></h1>
-            <p class="text-lg md:text-xl text-slate-500 dark:text-slate-400 mb-10">단순한 기술 습득을 넘어, 올바른 활용 방법을 함께 고민해 봅니다.</p>
-            <div class="flex flex-col md:flex-row gap-4 justify-center">
-                <a href="#ethics" class="px-8 py-4 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition">윤리 원칙 알아보기</a>
-                <a href="#learning" class="px-8 py-4 border border-slate-300 dark:border-slate-700 font-bold rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition">실습 도구 열기</a>
+            <div class="flex items-center space-x-6">
+                <div class="hidden md:flex space-x-8 font-medium">
+                    <a href="#bias" class="hover:text-blue-500 transition text-sm">편향성 탐구</a>
+                    <a href="#dilemma" class="hover:text-blue-500 transition text-sm">딜레마 사례</a>
+                    <a href="#" onclick="showPage('board-page')" class="text-blue-600 dark:text-blue-400 font-bold text-sm">의견 발표 보드</a>
+                </div>
+                <button id="theme-toggle" class="p-2 w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center transition-colors">
+                    <i id="theme-toggle-dark-icon" class="hidden fas fa-moon text-blue-400"></i>
+                    <i id="theme-toggle-light-icon" class="hidden fas fa-sun text-yellow-500"></i>
+                </button>
             </div>
-        </div>
-    </section>
+        </nav>
 
-    <section id="ethics" class="py-24 px-6 md:px-12 bg-white dark:bg-slate-900 transition-colors">
+        <!-- Hero Section -->
+        <section class="min-h-screen flex flex-col justify-center items-center px-6 pt-20 text-center">
+            <div class="max-w-4xl">
+                <span class="inline-block px-4 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-bold mb-6 tracking-widest uppercase">Chapter 2-2</span>
+                <h1 class="text-5xl md:text-7xl font-black mb-8">인공지능의<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500">편향과 딜레마</span></h1>
+                <p class="text-lg text-slate-500 dark:text-slate-400 mb-12 max-w-2xl mx-auto">
+                    우리가 신뢰하는 인공지능이 가진 숨겨진 편향성과 선택의 기로에서 마주하는 윤리적 숙제를 함께 해결해 봅시다.
+                </p>
+                <div class="flex flex-wrap gap-4 justify-center">
+                    <a href="#bias" class="px-8 py-4 bg-blue-600 text-white font-bold rounded-xl shadow-xl shadow-blue-500/20">탐구 시작</a>
+                    <button onclick="showPage('board-page')" class="px-8 py-4 glass text-slate-700 dark:text-white font-bold rounded-xl border border-slate-200 dark:border-slate-700">모둠별 발표 보드</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bias & Dilemma Sections (Same as before) -->
+        <section id="bias" class="py-24 px-6 md:px-12 bg-slate-50 dark:bg-slate-900/50">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-3xl font-black mb-12 flex items-center">
+                    <span class="w-12 h-12 bg-blue-600 text-white rounded-xl flex items-center justify-center mr-4">01</span>
+                    인공지능의 편향성
+                </h2>
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div class="p-8 bg-white dark:bg-slate-800 rounded-3xl shadow-sm">
+                        <i class="fas fa-exclamation-triangle text-3xl text-orange-500 mb-6"></i>
+                        <h3 class="text-xl font-bold mb-4">왜 편향이 발생할까요?</h3>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-6">인공지능은 학습 데이터 속의 인간의 편견, 특정 집단의 부재, 혹은 알고리즘 설계자의 의도치 않은 가치관을 그대로 습득합니다.</p>
+                        <div class="space-y-3">
+                            <div class="flex items-center text-sm"><i class="fas fa-check text-blue-500 mr-2"></i> 데이터 수집 단계의 불균형</div>
+                            <div class="flex items-center text-sm"><i class="fas fa-check text-blue-500 mr-2"></i> 과거의 차별적 통계 학습</div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col justify-center">
+                        <div class="p-6 border-l-4 border-blue-500 bg-blue-50 dark:bg-blue-900/10">
+                            <h4 class="font-bold mb-2">교과서 핵심 포인트 (150p)</h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 italic">"인공지능의 결과는 중립적일 것이라는 맹신을 버리고, 비판적인 시각으로 데이터를 바라봐야 합니다."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="dilemma" class="py-24 px-6 md:px-12">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-3xl font-black mb-12 flex items-center">
+                    <span class="w-12 h-12 bg-emerald-600 text-white rounded-xl flex items-center justify-center mr-4">02</span>
+                    윤리적 딜레마
+                </h2>
+                <div class="grid md:grid-cols-2 gap-8 mb-16">
+                    <div class="bg-white dark:bg-slate-800 rounded-3xl overflow-hidden border border-slate-100 dark:border-slate-700 shadow-sm">
+                        <img src="딜레마 사진.png" alt="트롤리 딜레마" class="w-full h-64 object-contain bg-slate-50 dark:bg-slate-900 p-4">
+                        <div class="p-8">
+                            <h3 class="text-xl font-bold mb-2">트롤리 딜레마 사례</h3>
+                            <p class="text-sm text-slate-500 mb-6">다수를 위한 소수의 희생은 정당화될 수 있을까요? 인공지능은 이 상황에서 어떤 명령어를 따라야 할까요?</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col justify-center space-y-4">
+                        <div class="p-6 bg-slate-50 dark:bg-slate-800 rounded-2xl">
+                            <h4 class="font-bold text-emerald-500 mb-2">자율주행 자동차 딜레마</h4>
+                            <p class="text-sm text-slate-500">사고가 불가피할 때, 탑승자와 보행자 중 누구를 우선 보호해야 하는지에 대한 사회적 합의가 필요합니다.</p>
+                        </div>
+                        <div class="p-6 bg-slate-50 dark:bg-slate-800 rounded-2xl">
+                            <h4 class="font-bold text-blue-500 mb-2">알고리즘의 투명성</h4>
+                            <p class="text-sm text-slate-500">인공지능이 왜 그런 판단을 내렸는지 설명할 수 있어야 책임 소재를 가릴 수 있습니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 발표 유도 섹션 -->
+        <section id="discussion" class="py-24 px-6 md:px-12 bg-blue-600 text-white rounded-t-[4rem]">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-4xl font-black mb-8">모둠별 토론 시간</h2>
+                <p class="mb-12 opacity-90 leading-relaxed text-lg">
+                    우리 모둠의 생각은 어떤가요? <br>
+                    딜레마 상황에 대한 해결책과 인공지능 윤리 원칙을 발표 보드에 적어봅시다.
+                </p>
+                <button onclick="showPage('board-page')" class="px-12 py-5 bg-white text-blue-600 font-black rounded-full hover:scale-105 transition shadow-2xl flex items-center mx-auto">
+                    <i class="fas fa-edit mr-3"></i> 의견 발표하기
+                </button>
+            </div>
+        </section>
+
+        <footer class="py-12 bg-white dark:bg-slate-950 text-center text-slate-400 text-xs">
+            <p>© 2024 정보 교과 수업 가이드 - AI 편향과 윤리</p>
+        </footer>
+    </div>
+
+    <!-- 모둠별 발표 보드 페이지 -->
+    <div id="board-page" class="hidden-page min-h-screen pt-24 px-6 md:px-12 bg-slate-50 dark:bg-[#0f172a]">
         <div class="max-w-6xl mx-auto">
-            <h2 class="text-4xl font-bold mb-12 text-center">인공지능 윤리</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all card-hover dark:bg-slate-800/50 bg-slate-50">
-                    <i class="fas fa-user-shield text-3xl text-blue-500 mb-6"></i>
-                    <h3 class="text-xl font-bold mb-4">공정성</h3>
-                    <p class="text-slate-500 dark:text-slate-400">데이터의 편향성을 점검하고 차별 없는 알고리즘을 지향합니다.</p>
+            <div class="flex justify-between items-end mb-12">
+                <div>
+                    <button onclick="showPage('main-page')" class="text-blue-500 font-bold mb-4 flex items-center hover:underline">
+                        <i class="fas fa-arrow-left mr-2"></i> 메인으로 돌아가기
+                    </button>
+                    <h2 class="text-4xl font-black">의견 발표 보드</h2>
                 </div>
-                <div class="p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all card-hover dark:bg-slate-800/50 bg-slate-50">
-                    <i class="fas fa-eye text-3xl text-emerald-500 mb-6"></i>
-                    <h3 class="text-xl font-bold mb-4">투명성</h3>
-                    <p class="text-slate-500 dark:text-slate-400">인공지능의 결정 과정을 이해하고 설명할 수 있어야 합니다.</p>
-                </div>
-                <div class="p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all card-hover dark:bg-slate-800/50 bg-slate-50">
-                    <i class="fas fa-hand-holding-heart text-3xl text-purple-500 mb-6"></i>
-                    <h3 class="text-xl font-bold mb-4">책임성</h3>
-                    <p class="text-slate-500 dark:text-slate-400">기술의 결과에 대해 개발자와 운영자가 책임을 다해야 합니다.</p>
+                <div class="text-right hidden md:block">
+                    <p class="text-sm text-slate-500">실시간 모둠별 현황</p>
+                    <div class="flex space-x-2 mt-2">
+                        <span class="w-3 h-3 rounded-full bg-green-500 animate-pulse"></span>
+                        <span class="text-xs font-bold text-green-500 uppercase tracking-tighter">Live Session</span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <section id="learning" class="py-24 px-6 md:px-12 bg-slate-50 dark:bg-slate-950 transition-colors">
-        <div class="max-w-6xl mx-auto text-center">
-            <h2 class="text-4xl font-bold mb-12">실습 프로그램</h2>
-            <div class="grid md:grid-cols-2 gap-8 text-left">
-                <div class="p-8 rounded-3xl bg-white dark:bg-slate-900 shadow-lg group">
-                    <div class="w-full h-48 rounded-xl bg-blue-100 dark:bg-blue-900/20 mb-6 flex items-center justify-center">
-                        <i class="fas fa-robot text-5xl text-blue-500"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-2">Teachable Machine</h3>
-                    <p class="text-slate-500 mb-6">이미지, 소리 등을 인식하는 AI를 직접 훈련시켜 보세요.</p>
-                    <a href="#" class="text-blue-600 font-bold">도구 실행하기 →</a>
-                </div>
-                <div class="p-8 rounded-3xl bg-white dark:bg-slate-900 shadow-lg group">
-                    <div class="w-full h-48 rounded-xl bg-emerald-100 dark:bg-emerald-900/20 mb-6 flex items-center justify-center">
-                        <i class="fas fa-code text-5xl text-emerald-500"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-2">ML for Kids</h3>
-                    <p class="text-slate-500 mb-6">블록 코딩으로 인공지능 앱을 만들어 봅니다.</p>
-                    <a href="#" class="text-emerald-600 font-bold">도구 실행하기 →</a>
-                </div>
+            <!-- 모둠 그리드 -->
+            <div class="grid md:grid-cols-3 gap-6 mb-20">
+                <!-- Group 1 ~ 6 -->
+                <script>
+                    const groups = [1, 2, 3, 4, 5, 6];
+                    document.write(groups.map(num => `
+                        <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm transition-all hover:shadow-lg">
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-bold rounded-lg uppercase">${num} 모둠</span>
+                                <i class="fas fa-users text-slate-300"></i>
+                            </div>
+                            <textarea id="group-text-${num}" placeholder="모둠의 의견을 입력하세요..." class="w-full h-32 p-4 bg-slate-50 dark:bg-slate-900 rounded-xl border-none text-sm resize-none focus:ring-2 focus:ring-blue-500 dark:text-slate-200 mb-4"></textarea>
+                            <button onclick="saveGroupOpinion(${num})" class="w-full py-2 bg-blue-600 text-white text-xs font-bold rounded-lg hover:bg-blue-700 transition">입력 완료</button>
+                            <div id="saved-msg-${num}" class="mt-4 hidden p-3 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 text-[11px] rounded-lg border border-emerald-100 dark:border-emerald-900/30">
+                                <i class="fas fa-check-circle mr-1"></i> 의견이 기록되었습니다!
+                            </div>
+                        </div>
+                    `).join(''));
+                </script>
+            </div>
+
+            <!-- 전체 보기용 섹션 (모드) -->
+            <div class="p-12 glass rounded-[3rem] text-center border-dashed border-2 border-slate-300 dark:border-slate-700">
+                <i class="fas fa-desktop text-4xl text-slate-300 mb-6"></i>
+                <h3 class="text-2xl font-black mb-4">전체 화면으로 비교하기</h3>
+                <p class="text-slate-500 mb-8">대형 화면에 모둠별 의견을 한데 모아 띄워 보세요.</p>
+                <button onclick="alert('전체 발표 모드는 교사 PC 연동 기능입니다. (시뮬레이션)')" class="px-8 py-3 bg-slate-800 dark:bg-slate-700 text-white font-bold rounded-xl">발표 모드 실행</button>
             </div>
         </div>
-    </section>
+    </div>
 
     <script>
-        // Theme Switch Logic
+        // 페이지 전환 로직
+        function showPage(pageId) {
+            const pages = ['main-page', 'board-page'];
+            pages.forEach(id => {
+                const el = document.getElementById(id);
+                if (id === pageId) {
+                    el.classList.remove('hidden-page');
+                    el.style.display = 'block';
+                    setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }, 10);
+                } else {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(20px)';
+                    setTimeout(() => { el.style.display = 'none'; el.classList.add('hidden-page'); }, 500);
+                }
+            });
+            window.scrollTo(0, 0);
+        }
+
+        // 팝업 닫기
+        function closePopup() {
+            const popup = document.getElementById('main-popup');
+            popup.classList.add('opacity-0', 'pointer-events-none');
+            setTimeout(() => { popup.style.display = 'none'; }, 300);
+        }
+
+        // 의견 저장 시뮬레이션
+        function saveGroupOpinion(num) {
+            const text = document.getElementById(`group-text-${num}`).value;
+            if(!text.trim()) {
+                alert('내용을 입력해 주세요!');
+                return;
+            }
+            const msg = document.getElementById(`saved-msg-${num}`);
+            msg.classList.remove('hidden');
+            setTimeout(() => {
+                msg.classList.add('hidden');
+            }, 3000);
+        }
+
+        // 테마 토글
         const themeToggleBtn = document.getElementById('theme-toggle');
         const darkIcon = document.getElementById('theme-toggle-dark-icon');
         const lightIcon = document.getElementById('theme-toggle-light-icon');
 
-        // 초기 테마 설정
         if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
-            lightIcon.classList.remove('hidden');
+            lightIcon.classList.removeㅁ('hidden');
         } else {
             document.documentElement.classList.remove('dark');
             darkIcon.classList.remove('hidden');
@@ -139,7 +262,6 @@
         themeToggleBtn.addEventListener('click', function() {
             darkIcon.classList.toggle('hidden');
             lightIcon.classList.toggle('hidden');
-
             if (document.documentElement.classList.contains('dark')) {
                 document.documentElement.classList.remove('dark');
                 localStorage.setItem('color-theme', 'light');
@@ -148,20 +270,6 @@
                 localStorage.setItem('color-theme', 'dark');
             }
         });
-
-        // Intersection Observer (Scroll Animation)
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('opacity-100', 'translate-y-0');
-                    entry.target.classList.remove('opacity-0', 'translate-y-10');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('section').forEach(section => {
-            section.classList.add('transition-all', 'duration-1000', 'opacity-0', 'translate-y-10');
-            observer.observe(section);
-        });
     </script>
 </body>
+</html>
